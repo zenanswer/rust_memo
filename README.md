@@ -35,5 +35,6 @@ struct X (i32);
  4. 有关trait drop（析构函数）。这个trait是和Copy冲突的。
 drop的设计初衷是为了使用者可以自定义“析构函数”，释放些资源，如文件句柄，或者发送消息等。
 但是Copy以后，释放资源的时候就相当于double free了。
+另外，在COPY以后，使用这些资源的时候，也要注意资源争抢的问题，比如socket，就不能同时在两个线程中发送，或者同时接收。
 如果非要抬杠，加上flag+mutex来避免double free，那这样不就又违背了rust的设计初衷或者说原则嘛。
 [stackoverflow上的一些解释](https://stackoverflow.com/questions/51704063/why-does-rust-not-allow-the-copy-and-drop-traits-on-one-type)
